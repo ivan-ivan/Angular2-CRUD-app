@@ -1,0 +1,16 @@
+li {
+  list-style: none;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.checkbox:checked + label {
+  text-decoration: line-through;
+}
+
+.remove-todo {
+  margin-left: auto;
+}
+

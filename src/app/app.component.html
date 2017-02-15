@@ -1,3 +1,19 @@
-<h1>
-  {{title}}
-</h1>
+<section class="todoapp">
+  <header class="header">
+    <h1>{{title}}</h1>
+    <input #input type="text" (keyup.enter)="addTodo(input)" placeholder="What needs to be done?" autofocus>
+    <button class="add-button" (click)="addTodo(input)">add</button>
+  </header>
+  <section class="main" *ngIf="list.length > 0">
+    <ul class="list-container">
+      <app-todo-item
+        *ngFor="let todo of list"
+        [todo]="todo"
+        (elementDeleted)="onElementDeleted($event)">
+      </app-todo-item>
+    </ul>
+  </section>
+  <footer class="footer" *ngIf="list.length > 0">
+    <span>{{list.length}} {{list.length === 1 ? 'item' : 'items'}}</span>
+  </footer>
+</section>

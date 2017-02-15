@@ -6,11 +6,19 @@ li {
   margin-bottom: 5px;
 }
 
+label {
+  width: 300px;
+}
+
 .checkbox:checked + label {
   text-decoration: line-through;
 }
 
-.remove-todo {
+.control-todo {
   margin-left: auto;
+}
+
+input[type=text] {
+  width: 300px;
 }
 

@@ -14,17 +14,24 @@ export class AppComponent {
     this.list = store.getTodos();
   }
 
-  addTodo(inputValue: HTMLInputElement): void {
+  addTodo(input: HTMLInputElement): void {
     this.list.push({
       id: (new Date()).getTime(),
-      text: inputValue.value,
+      text: input.value,
       completed: false
     });
-    inputValue.value = null;
+    input.value = null;
   }
 
-  onElementDeleted(todo):void {
+  onTodoDeleted(todo):void {
     const index = this.list.findIndex(item => item.id === todo.id);
     this.list.splice(index, 1);
+  }
+
+  onTodoUpdated(event): void {
+    const index = this.list.findIndex(item => item.id === event.todo.id);
+    const updatedTodo = this.list[index];
+    updatedTodo.text = event.inputValue;
+    this.list.splice(index, 1, updatedTodo);
   }
 }

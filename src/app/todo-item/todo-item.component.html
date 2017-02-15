@@ -1,5 +1,6 @@
 <li>
-  <input type="checkbox" class="checkbox" [checked]="todo.completed">
-  <label>{{todo.text}}</label>
-  <button class="remove-todo" (click)="removeTodo()">remove</button>
+  <input [hidden]="onEdited" type="checkbox" class="checkbox" [checked]="todo.completed">
+  <label [hidden]="onEdited" (click)="toggleTodo()">{{todo.text}}</label>
+  <input #input [hidden]="!onEdited" type="text" value="{{todo.text}}">
+  <button class="control-todo" (click)="onEdited ? updateTodo(input) : removeTodo()">{{onEdited ? 'save' : 'remove'}}</button>
 </li>

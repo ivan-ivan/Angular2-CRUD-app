@@ -34,4 +34,11 @@ export class AppComponent {
     updatedTodo.text = event.inputValue;
     this.list.splice(index, 1, updatedTodo);
   }
+
+  onTodoChecked(event): void {
+    const index = this.list.findIndex(item => item.id === event.todo.id);
+    const updatedTodo = this.list[index];
+    updatedTodo.completed = event.checked;
+    this.list.splice(index, 1, updatedTodo);
+  }
 }

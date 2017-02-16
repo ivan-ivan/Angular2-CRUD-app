@@ -15,6 +15,8 @@ export class TodoItemComponent implements OnInit {
   public todoRemoved: EventEmitter<any> = new EventEmitter();
   @Output()
   public todoUpdated: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public todoChecked: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -35,5 +37,12 @@ export class TodoItemComponent implements OnInit {
       inputValue: input.value
     });
     this.toggleTodo();
+  }
+
+  onChecked(): void {
+    this.todoChecked.emit({
+      todo: this.todo,
+      checked: !this.todo.completed
+    });
   }
 }

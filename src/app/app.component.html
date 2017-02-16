@@ -10,11 +10,17 @@
         *ngFor="let todo of list"
         [todo]="todo"
         (todoRemoved)="onTodoDeleted($event)"
-        (todoUpdated)="onTodoUpdated($event)" >
+        (todoUpdated)="onTodoUpdated($event)"
+        (todoChecked)="onTodoChecked($event)" >
       </app-todo-item>
     </ul>
   </section>
   <footer class="footer" *ngIf="list.length > 0">
-    <span>{{list.length}} {{list.length === 1 ? 'item' : 'items'}} left</span>
+    <span class="todo-count">{{list.length}} {{list.length === 1 ? 'item' : 'items'}} left</span>
+    <ul class="filters">
+      <li><a href="">all</a></li>
+      <li><a href="">active</a></li>
+      <li><a href="">completed</a></li>
+    </ul>
   </footer>
 </section>

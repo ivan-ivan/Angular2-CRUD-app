@@ -8,6 +8,9 @@ import { TodoItem } from '../todo-store';
 })
 export class TodoItemComponent implements OnInit {
   public onEdited: boolean = false;
+  private delay: number = 200;
+  private timer;
+  private prevent: boolean = false;
 
   @Input()
   public todo: TodoItem;
@@ -28,7 +31,12 @@ export class TodoItemComponent implements OnInit {
   }
 
   toggleTodo(): void {
+    clearTimeout(this.timer);
+    this.prevent = true;
+
     this.onEdited = !this.onEdited;
+
+    
   }
 
   updateTodo(input: HTMLInputElement): void {
@@ -39,10 +47,15 @@ export class TodoItemComponent implements OnInit {
     this.toggleTodo();
   }
 
-  onChecked(): void {
-    this.todoChecked.emit({
-      todo: this.todo,
-      checked: !this.todo.completed
-    });
+  checkTodo(): void {
+    this.timer = setTimeout(() => {
+      if (!this.prevent) {
+        this.todoChecked.emit({
+          todo: this.todo,
+          checked: !this.todo.completed
+        });
+      }
+      this.prevent = false;
+    }, this.delay);
   }
 }

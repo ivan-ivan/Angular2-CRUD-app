@@ -7,20 +7,16 @@ import { TodoStore, TodoItem } from './todo-store';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public title: string = 'todo app!';
-  public list: TodoItem[];
+  private title: string = 'todo app!';
+  private list: TodoItem[];
+  private filterApplied: string = 'all';
 
   constructor(public store: TodoStore) {
     this.list = store.getTodos();
   }
 
-  addTodo(input: HTMLInputElement): void {
-    this.list.push({
-      id: (new Date()).getTime(),
-      text: input.value,
-      completed: false
-    });
-    input.value = null;
+  onTodoAdded(event): void {
+    this.list.push(event);
   }
 
   onTodoDeleted(todo):void {
@@ -40,5 +36,21 @@ export class AppComponent {
     const updatedTodo = this.list[index];
     updatedTodo.completed = event.checked;
     this.list.splice(index, 1, updatedTodo);
+  }
+
+  filterList(list) {
+    switch (this.filterApplied) {
+      case 'all':
+        return list.concat([]);
+      case 'active':
+        return list.filter(todo => !todo.completed);
+      case 'completed':
+        return list.filter(todo => todo.completed); 
+    }
+  }
+
+  setVisibilityFilter(event, filter): void {
+    event.preventDefault();
+    this.filterApplied = filter;
   }
 }

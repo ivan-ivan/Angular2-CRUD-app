@@ -1,0 +1,6 @@
+<input 
+  #input type="text" 
+  (keyup.enter)="addTodo(input)"
+  placeholder="What needs to be done?"
+  autofocus>
+<button class="add-button" (click)="addTodo(input)">add</button>

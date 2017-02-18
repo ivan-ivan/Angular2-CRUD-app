@@ -1,13 +1,12 @@
 <section class="todoapp">
   <header class="header">
     <h1>{{title}}</h1>
-    <input #input type="text" (keyup.enter)="addTodo(input)" placeholder="What needs to be done?" autofocus>
-    <button class="add-button" (click)="addTodo(input)">add</button>
+    <app-add-todo (todoAdded)="onTodoAdded($event)"></app-add-todo>
   </header>
   <section class="main" *ngIf="list.length > 0">
     <ul class="list-container">
       <app-todo-item
-        *ngFor="let todo of list"
+        *ngFor="let todo of filterList(list)"
         [todo]="todo"
         (todoRemoved)="onTodoDeleted($event)"
         (todoUpdated)="onTodoUpdated($event)"
@@ -18,9 +17,9 @@
   <footer class="footer" *ngIf="list.length > 0">
     <span class="todo-count">{{list.length}} {{list.length === 1 ? 'item' : 'items'}} left</span>
     <ul class="filters">
-      <li><a href="">all</a></li>
-      <li><a href="">active</a></li>
-      <li><a href="">completed</a></li>
+      <li><a href="" #filterAll (click)="setVisibilityFilter($event, filterAll.innerText)">all</a></li>
+      <li><a href="" #filterActive (click)="setVisibilityFilter($event, filterActive.innerText)">active</a></li>
+      <li><a href="" #filterCompleted (click)="setVisibilityFilter($event, filterCompleted.innerText)">completed</a></li>
     </ul>
   </footer>
 </section>

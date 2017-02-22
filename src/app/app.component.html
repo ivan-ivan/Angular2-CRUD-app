@@ -1,25 +1,22 @@
 <section class="todoapp">
   <header class="header">
     <h1>{{title}}</h1>
-    <app-add-todo (todoAdded)="onTodoAdded($event)"></app-add-todo>
+    <app-add-todo></app-add-todo>
   </header>
   <section class="main" *ngIf="list.length > 0">
     <ul class="list-container">
       <app-todo-item
-        *ngFor="let todo of filterList(list)"
-        [todo]="todo"
-        (todoRemoved)="onTodoDeleted($event)"
-        (todoUpdated)="onTodoUpdated($event)"
-        (todoChecked)="onTodoChecked($event)" >
+        *ngFor="let todo of list"
+        [todo]="todo">
       </app-todo-item>
     </ul>
   </section>
   <footer class="footer" *ngIf="list.length > 0">
     <span class="todo-count">{{list.length}} {{list.length === 1 ? 'item' : 'items'}} left</span>
     <ul class="filters">
-      <li><a href="" #filterAll (click)="setVisibilityFilter($event, filterAll.innerText)">all</a></li>
-      <li><a href="" #filterActive (click)="setVisibilityFilter($event, filterActive.innerText)">active</a></li>
-      <li><a href="" #filterCompleted (click)="setVisibilityFilter($event, filterCompleted.innerText)">completed</a></li>
+      <li><a href="" (click)="setVisibilityFilter($event, 'ALL')">all</a></li>
+      <li><a href="" (click)="setVisibilityFilter($event, 'ACTIVE')">active</a></li>
+      <li><a href="" (click)="setVisibilityFilter($event, 'COMPLETED')">completed</a></li>
     </ul>
   </footer>
 </section>

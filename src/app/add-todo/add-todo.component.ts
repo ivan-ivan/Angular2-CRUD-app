@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-add-todo',
@@ -7,21 +8,20 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class AddTodoComponent implements OnInit {
 
-  @Output()
-  public todoAdded: EventEmitter<any> = new EventEmitter();
-
-  constructor() { }
+  constructor(private store: Store<any>) { }
 
   ngOnInit() {
   }
 
   addTodo(input: HTMLInputElement): void {
-    this.todoAdded.emit({
-      id: (new Date()).getTime(),
-      text: input.value,
-      completed: false
+    this.store.dispatch({
+      type: 'ADD_TODO',
+      payload: {
+        id: (new Date()).getTime(),
+        text: input.value,
+        completed: false
+      }
     });
     input.value = null;
   }
-
 }

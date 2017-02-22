@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TodoItem } from '../todo-store';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-todo-item',
@@ -14,20 +15,19 @@ export class TodoItemComponent implements OnInit {
 
   @Input()
   public todo: TodoItem;
-  @Output()
-  public todoRemoved: EventEmitter<any> = new EventEmitter();
-  @Output()
-  public todoUpdated: EventEmitter<any> = new EventEmitter();
-  @Output()
-  public todoChecked: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(private store: Store<any>) { }
 
   ngOnInit() {
   }
 
   removeTodo(): void {
-    this.todoRemoved.emit(this.todo);
+    this.store.dispatch({
+      type: 'DELETE_TODO',
+      payload: {
+        id: this.todo.id
+      }
+    });
   }
 
   toggleTodo(): void {
@@ -35,24 +35,33 @@ export class TodoItemComponent implements OnInit {
     this.prevent = true;
 
     this.onEdited = !this.onEdited;
-
-    
   }
 
   updateTodo(input: HTMLInputElement): void {
-    this.todoUpdated.emit({
-      todo: this.todo,
-      inputValue: input.value
+    this.store.dispatch({
+      type: 'UPDATE_TODO',
+      payload: {
+        id: this.todo.id,
+        text: input.value
+      }
     });
+
     this.toggleTodo();
   }
 
   checkTodo(): void {
     this.timer = setTimeout(() => {
       if (!this.prevent) {
-        this.todoChecked.emit({
-          todo: this.todo,
-          checked: !this.todo.completed
+        // this.todoChecked.emit({
+        //   todo: this.todo,
+        //   checked: !this.todo.completed
+        // });
+        this.store.dispatch({
+          type: 'TOGGLE_TODO',
+          payload: {
+            id: this.todo.id,
+            completed: !this.todo.completed
+          }
         });
       }
       this.prevent = false;

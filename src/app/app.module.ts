@@ -2,12 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { StoreModule  } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 
 import { TodoStore } from './todo-store';
 import { AddTodoComponent } from './add-todo/add-todo.component';
+
+import { todos } from './reducers/todos';
+import { filter } from './reducers/filter';
 
 @NgModule({
   declarations: [
@@ -18,7 +23,14 @@ import { AddTodoComponent } from './add-todo/add-todo.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    StoreModule.provideStore({
+      todos,
+      filter
+    }),
+    StoreDevtoolsModule.instrumentOnlyWithExtension({
+      maxAge: 5
+    })
   ],
   providers: [TodoStore],
   bootstrap: [AppComponent]

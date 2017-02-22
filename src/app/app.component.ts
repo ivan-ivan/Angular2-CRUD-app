@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { TodoStore, TodoItem } from './todo-store';
+// import { TodoStore, TodoItem } from './todo-store';
+import { Store } from '@ngrx/store';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -8,49 +10,44 @@ import { TodoStore, TodoItem } from './todo-store';
 })
 export class AppComponent {
   private title: string = 'todo app!';
-  private list: TodoItem[];
+  public list;
   private filterApplied: string = 'all';
+  private listSubscription;
 
-  constructor(public store: TodoStore) {
-    this.list = store.getTodos();
+  constructor(public store: Store<any>) {
+    // this.listSubscription = this.store.select('todos')
+    //   .subscribe(todo => {
+    //     this.list = todo;
+    //   });
+    this.list = Observable.combineLatest(
+      this.store.select('todos'),
+      this.store.select('filter'),
+      (todos, filter) => {
+        return todos.filter(filter);
+      }
+    );
   }
 
-  onTodoAdded(event): void {
-    this.list.push(event);
-  }
-
-  onTodoDeleted(todo):void {
-    const index = this.list.findIndex(item => item.id === todo.id);
-    this.list.splice(index, 1);
-  }
-
-  onTodoUpdated(event): void {
-    const index = this.list.findIndex(item => item.id === event.todo.id);
-    const updatedTodo = this.list[index];
-    updatedTodo.text = event.inputValue;
-    this.list.splice(index, 1, updatedTodo);
-  }
-
-  onTodoChecked(event): void {
-    const index = this.list.findIndex(item => item.id === event.todo.id);
-    const updatedTodo = this.list[index];
-    updatedTodo.completed = event.checked;
-    this.list.splice(index, 1, updatedTodo);
-  }
-
-  filterList(list) {
-    switch (this.filterApplied) {
-      case 'all':
-        return list.concat([]);
-      case 'active':
-        return list.filter(todo => !todo.completed);
-      case 'completed':
-        return list.filter(todo => todo.completed); 
-    }
-  }
+  // filterList(list) {
+  //   switch (this.filterApplied) {
+  //     case 'all':
+  //       return list.concat([]);
+  //     case 'active':
+  //       return list.filter(todo => !todo.completed);
+  //     case 'completed':
+  //       return list.filter(todo => todo.completed);
+  //   }
+  // }
 
   setVisibilityFilter(event, filter): void {
     event.preventDefault();
-    this.filterApplied = filter;
+    // this.filterApplied = filter;
+    this.store.dispatch({
+      type: filter
+    });
+  }
+
+  ngOnDestroy() {
+    this.listSubscription.unsubscribe();
   }
 }

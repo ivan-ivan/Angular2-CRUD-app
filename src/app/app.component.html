@@ -1,6 +1,6 @@
 <section class="todoapp">
   <header class="header">
-    <h1>{{title}}</h1>
+    <h1>Let's add some tasks!</h1>
     <app-add-todo></app-add-todo>
   </header>
   <section class="main" *ngIf="list.length > 0">
@@ -14,9 +14,9 @@
   <footer class="footer" *ngIf="list.length > 0">
     <span class="todo-count">{{list.length}} {{list.length === 1 ? 'item' : 'items'}} left</span>
     <ul class="filters">
-      <li><a href="" (click)="setVisibilityFilter($event, 'ALL')">all</a></li>
-      <li><a href="" (click)="setVisibilityFilter($event, 'ACTIVE')">active</a></li>
-      <li><a href="" (click)="setVisibilityFilter($event, 'COMPLETED')">completed</a></li>
+      <li><a href="" (click)="setVisibilityFilter($event, 'ALL')" [ngClass]="{'highlighted': 'ALL' === currentFilter}">all</a></li>
+      <li><a href="" (click)="setVisibilityFilter($event, 'ACTIVE')" [ngClass]="{'highlighted': 'ACTIVE' === currentFilter}">active</a></li>
+      <li><a href="" (click)="setVisibilityFilter($event, 'COMPLETED')" [ngClass]="{'highlighted': 'COMPLETED' === currentFilter}">completed</a></li>
     </ul>
   </footer>
 </section>

@@ -8,7 +8,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 
-import { TodoStore } from './todo-store';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 
 import { todos } from './reducers/todos';
@@ -32,7 +31,7 @@ import { filter } from './reducers/filter';
       maxAge: 5
     })
   ],
-  providers: [TodoStore],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

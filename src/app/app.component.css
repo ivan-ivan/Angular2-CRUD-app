@@ -4,10 +4,16 @@
   margin-right: 20px;
 }
 
-h1 {
+.header h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 250%;
+  letter-spacing: 2px;
+}
+
+.header h1::first-letter {
+  font-weight: 100;
+  font-style: italic;
 }
 
 .footer .filters li {
@@ -17,4 +23,16 @@ h1 {
 .footer .todo-count {
   float: left;
   margin-right: 50px;
+}
+
+.highlighted {
+  padding: 5px;
+  color: white;
+  background-color: lightskyblue;
+  text-decoration: none;
+}
+
+.highlighted:hover {
+  transition: 0.5s;
+  background-color: #336699;
 }

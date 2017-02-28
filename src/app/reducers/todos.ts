@@ -1,4 +1,4 @@
-export const todos = (state=[], action) => {
+export const todos = (state: Array<any> = [], action) => {
   switch(action.type) {
     case 'ADD_TODO':
       return [

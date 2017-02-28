@@ -1,11 +1,25 @@
-export const filter = (state = todo => todo, action) => {
+let defaultState = {
+  func: todo => todo,
+  type: 'ALL'
+};
+
+export const filter = (state: any = defaultState, action) => {
   switch(action.type) {
     case 'ALL':
-      return todo => todo;
+      return {
+        func: todo => todo,
+        type: 'ALL'
+      };
     case 'ACTIVE':
-      return todo => !todo.completed;
+      return {
+        func: todo => !todo.completed,
+        type: 'ACTIVE'
+      };
     case 'COMPLETED':
-      return todo => todo.completed;
+      return {
+        func: todo => todo.completed,
+        type: 'COMPLETED'
+      };
     default:
       return state;
   }

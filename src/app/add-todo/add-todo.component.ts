@@ -14,11 +14,13 @@ export class AddTodoComponent implements OnInit {
   }
 
   addTodo(input: HTMLInputElement): void {
-    this.store.dispatch({
+    const inputValue = input.value;
+
+    inputValue && this.store.dispatch({
       type: 'ADD_TODO',
       payload: {
         id: (new Date()).getTime(),
-        text: input.value,
+        text: inputValue,
         completed: false
       }
     });

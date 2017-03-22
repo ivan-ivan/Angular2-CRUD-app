@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TodoItem } from '../models/todo';
 import { Store } from '@ngrx/store';
+import * as constants from '../constants';
 
 @Component({
   selector: 'app-todo-item',
@@ -23,7 +24,7 @@ export class TodoItemComponent implements OnInit {
 
   removeTodo(): void {
     this.store.dispatch({
-      type: 'DELETE_TODO',
+      type: constants.DELETE_TODO,
       payload: {
         id: this.todo.id
       }
@@ -39,7 +40,7 @@ export class TodoItemComponent implements OnInit {
 
   updateTodo(input: HTMLInputElement): void {
     this.store.dispatch({
-      type: 'UPDATE_TODO',
+      type: constants.UPDATE_TODO,
       payload: {
         id: this.todo.id,
         text: input.value
@@ -52,12 +53,8 @@ export class TodoItemComponent implements OnInit {
   checkTodo(): void {
     this.timer = setTimeout(() => {
       if (!this.prevent) {
-        // this.todoChecked.emit({
-        //   todo: this.todo,
-        //   checked: !this.todo.completed
-        // });
         this.store.dispatch({
-          type: 'TOGGLE_TODO',
+          type: constants.TOGGLE_TODO,
           payload: {
             id: this.todo.id,
             completed: !this.todo.completed

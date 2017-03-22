@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
+import * as constants from '../constants';
 
 @Component({
   selector: 'app-add-todo',
@@ -17,7 +18,7 @@ export class AddTodoComponent implements OnInit {
     const inputValue = input.value;
 
     inputValue && this.store.dispatch({
-      type: 'ADD_TODO',
+      type: constants.ADD_TODO,
       payload: {
         id: (new Date()).getTime(),
         text: inputValue,

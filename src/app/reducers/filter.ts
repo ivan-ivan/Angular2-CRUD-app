@@ -1,24 +1,26 @@
-let defaultState = {
+import * as constants from '../constants';
+
+const defaultState = {
   func: todo => todo,
-  type: 'ALL'
+  type: constants.ALL
 };
 
 export const filter = (state: any = defaultState, action) => {
-  switch(action.type) {
-    case 'ALL':
+  switch (action.type) {
+    case constants.ALL:
       return {
         func: todo => todo,
-        type: 'ALL'
+        type: constants.ALL
       };
-    case 'ACTIVE':
+    case constants.ACTIVE:
       return {
         func: todo => !todo.completed,
-        type: 'ACTIVE'
+        type: constants.ACTIVE
       };
-    case 'COMPLETED':
+    case constants.COMPLETED:
       return {
         func: todo => todo.completed,
-        type: 'COMPLETED'
+        type: constants.COMPLETED
       };
     default:
       return state;

@@ -1,20 +1,22 @@
+import * as constants from '../constants';
+
 export const todos = (state: Array<any> = [], action) => {
-  switch(action.type) {
-    case 'ADD_TODO':
+  switch (action.type) {
+    case constants.ADD_TODO:
       return [
         ...state,
         action.payload
       ];
-    case 'UPDATE_TODO':
+    case constants.UPDATE_TODO:
       return state.map(todo => {
         if (todo.id !== action.payload.id) {
           return todo;
         }
         return Object.assign({}, todo, { text: action.payload.text});
       });
-    case 'DELETE_TODO':
+    case constants.DELETE_TODO:
       return state.filter(todo => todo.id !== action.payload.id);
-    case 'TOGGLE_TODO':
+    case constants.TOGGLE_TODO:
       return state.map(todo => {
         if (todo.id !== action.payload.id) {
           return todo;

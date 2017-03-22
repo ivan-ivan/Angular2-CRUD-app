@@ -13,16 +13,18 @@ import any = jasmine.any;
 })
 export class AppComponent {
   public list;
+  public currentFilter;
   private listSubscription;
-  private currentFilter;
+  private todos;
+  private filter;
 
   constructor(private store: Store<any>) {
-    const todos = store.select('todos');
-    const filter: any = store.select('filter');
+    this.todos = store.select('todos');
+    this.filter = store.select('filter');
 
     this.listSubscription = Observable.combineLatest(
-      todos,
-      filter,
+      this.todos,
+      this.filter,
       (todos: any, filter: any) => {
         this.currentFilter = filter.type;
         return todos.filter(filter.func);
@@ -31,15 +33,36 @@ export class AppComponent {
 
     this.listSubscription.subscribe(
       filteredList => this.list = filteredList,
-      error => console.log(`Error occured: ${error.name}`)
+      error => this.errorHandler(error)
     );
   }
 
   setVisibilityFilter(event, filter): void {
     event.preventDefault();
+    let todoList;
+
+    this.todos.subscribe(
+      todos => todoList = todos,
+      error => this.errorHandler(error)
+    );
+
+    if (filter === 'COMPLETED' &&
+      todoList.every(todo => todo.completed === false)) {
+       return;
+    }
+
+    if (filter === 'ACTIVE' &&
+      todoList.every(todo => todo.completed === true)) {
+      return;
+    }
+
     this.store.dispatch({
       type: filter
     });
+  }
+
+  errorHandler(error: any): void {
+    console.log(`Error occured: ${error.name}`);
   }
 
   ngOnDestroy() {
